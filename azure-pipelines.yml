@@ -16,8 +16,7 @@ stages:
     pool:
       vmImage: 'ubuntu-18.04'
     environment: 'spike.default'
-
-    steps:
+steps:
     - task: Docker@2
       displayName: 'Build and push the image to container registry'
       inputs:
@@ -60,12 +59,10 @@ stages:
       artifact: manifests
     - download: current
       artifact: manifests
-
-
-
-      - task: KubernetesManifest@0
-        displayName: Create imagePullSecret
-        inputs:
+      
+    - task: KubernetesManifest@0
+      displayName: Create imagePullSecret
+      inputs:
          action: createSecret
          secretName: $(imagePullSecret)
          dockerRegistryEndpoint: 'Container Registry Connection'
@@ -87,3 +84,13 @@ stages:
         containers: |
           $(RegistryName)/$(webRepository):$(tag)
           $(RegistryName)/$(leaderboardRepository):$(tag)
+    
+
+    - task: KubernetesManifest@0
+        displayName: Create imagePullSecret
+        inputs:
+         action: createSecret
+         secretName: $(imagePullSecret)
+         dockerRegistryEndpoint: 'Container Registry Connection'
+         kubernetesServiceConnection: 'Kubernetes Cluster Connection'
+         namespace: 'default'
