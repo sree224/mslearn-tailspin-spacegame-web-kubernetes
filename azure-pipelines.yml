@@ -84,9 +84,9 @@ stages:
                   $(RegistryName)/$(webRepository):$(tag)
                   $(RegistryName)/$(leaderboardRepository):$(tag)
 
-          - task: AzureWebAppContainer@0
-            inputs:
-             appName: $(WebAppName)
-             azureSubscription: 'Resource Manager - Tailspin - Space Game'
-             imageName: $(RegistryName)/$(webRepository):$(build.buildId)
+           - task: AzureWebAppContainer@0
+              inputs:
+               appName: $(WebAppName)
+               azureSubscription: 'Resource Manager - Tailspin - Space Game'
+               imageName: $(RegistryName)/$(webRepository):$(build.buildId)
 
